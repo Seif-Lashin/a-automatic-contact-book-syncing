@@ -21,7 +21,7 @@ const getWaiterCalls = createServerFn({ method: "GET" })
     const { data } = await supabase
       .from("waiter_calls")
       .select("*, table:tables(table_number), session:table_sessions(restaurant:restaurants(name))")
-      .eq("status", "open")
+      .eq("is_resolved", false)
       .order("created_at", { ascending: true });
     return { calls: data ?? [] };
   });
@@ -33,7 +33,7 @@ const resolveCall = createServerFn({ method: "POST" })
     const { supabase } = context;
     const { error } = await supabase
       .from("waiter_calls")
-      .update({ status: "resolved", resolved_at: new Date().toISOString() })
+      .update({ is_resolved: true, resolved_at: new Date().toISOString() })
       .eq("id", data.callId);
     if (error) throw new Error("Could not resolve call");
     return { ok: true };

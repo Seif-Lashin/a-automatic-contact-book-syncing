@@ -116,15 +116,18 @@ function SessionPage() {
       <div className="rounded-xl border border-border bg-card p-5">
         <h2 className="font-semibold text-foreground">Diners at this table</h2>
         <ul className="mt-3 space-y-2">
-          {session.participants.map((p) => (
-            <li key={p.user_id} className="flex items-center gap-2 text-sm">
-              <div className="h-8 w-8 rounded-full bg-secondary" />
-              <span className="text-foreground">
-                {p.profile?.display_name || "Anonymous"}
-                {p.is_host && <span className="ml-2 text-xs text-primary">Host</span>}
-              </span>
-            </li>
-          ))}
+          {session.participants.map((p) => {
+            const profile = p.profile as { display_name: string | null; avatar_url: string | null } | null;
+            return (
+              <li key={p.user_id} className="flex items-center gap-2 text-sm">
+                <div className="h-8 w-8 rounded-full bg-secondary" />
+                <span className="text-foreground">
+                  {profile?.display_name || "Anonymous"}
+                  {p.is_host && <span className="ml-2 text-xs text-primary">Host</span>}
+                </span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

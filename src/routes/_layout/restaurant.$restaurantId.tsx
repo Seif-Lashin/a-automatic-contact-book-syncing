@@ -57,7 +57,7 @@ function RestaurantVendorsPage() {
               <Store className="h-5 w-5 text-primary" />
               <div>
                 <p className="font-semibold text-foreground">{vendor.name}</p>
-                <p className="text-sm text-muted-foreground">{vendor.cuisine_type}</p>
+                <p className="text-sm text-muted-foreground">Order here</p>
               </div>
             </div>
             <ArrowRight className="h-4 w-4 text-muted-foreground" />

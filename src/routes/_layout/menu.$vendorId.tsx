@@ -13,7 +13,8 @@ export const Route = createFileRoute("/_layout/menu/$vendorId")({
 
 function MenuPage() {
   const { vendorId } = Route.useParams();
-  const { sessionId } = Route.useSearch<{ sessionId: string }>();
+  const search = Route.useSearch() as { sessionId?: string };
+  const sessionId = search.sessionId;
   const fetchMenu = useServerFn(getVendorMenu);
   const submitOrderFn = useServerFn(submitOrder);
   const [cart, setCart] = useState<CartItem[]>([]);

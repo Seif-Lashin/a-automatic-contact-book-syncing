@@ -14,6 +14,7 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LayoutScanRouteImport } from './routes/_layout/scan'
 import { Route as LayoutSessionSessionIdRouteImport } from './routes/_layout/session.$sessionId'
+import { Route as LayoutMenuVendorIdRouteImport } from './routes/_layout/menu.$vendorId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -39,17 +40,24 @@ const LayoutSessionSessionIdRoute = LayoutSessionSessionIdRouteImport.update({
   path: '/session/$sessionId',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutMenuVendorIdRoute = LayoutMenuVendorIdRouteImport.update({
+  id: '/menu/$vendorId',
+  path: '/menu/$vendorId',
+  getParentRoute: () => LayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/scan': typeof LayoutScanRoute
+  '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
   '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/scan': typeof LayoutScanRoute
+  '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
   '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRoutesById {
@@ -58,19 +66,21 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/auth': typeof AuthRoute
   '/_layout/scan': typeof LayoutScanRoute
+  '/_layout/menu/$vendorId': typeof LayoutMenuVendorIdRoute
   '/_layout/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/scan' | '/session/$sessionId'
+  fullPaths: '/' | '/auth' | '/scan' | '/menu/$vendorId' | '/session/$sessionId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/scan' | '/session/$sessionId'
+  to: '/' | '/auth' | '/scan' | '/menu/$vendorId' | '/session/$sessionId'
   id:
     | '__root__'
     | '/'
     | '/_layout'
     | '/auth'
     | '/_layout/scan'
+    | '/_layout/menu/$vendorId'
     | '/_layout/session/$sessionId'
   fileRoutesById: FileRoutesById
 }
@@ -117,16 +127,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSessionSessionIdRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/menu/$vendorId': {
+      id: '/_layout/menu/$vendorId'
+      path: '/menu/$vendorId'
+      fullPath: '/menu/$vendorId'
+      preLoaderRoute: typeof LayoutMenuVendorIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
   }
 }
 
 interface LayoutRouteChildren {
   LayoutScanRoute: typeof LayoutScanRoute
+  LayoutMenuVendorIdRoute: typeof LayoutMenuVendorIdRoute
   LayoutSessionSessionIdRoute: typeof LayoutSessionSessionIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutScanRoute: LayoutScanRoute,
+  LayoutMenuVendorIdRoute: LayoutMenuVendorIdRoute,
   LayoutSessionSessionIdRoute: LayoutSessionSessionIdRoute,
 }
 

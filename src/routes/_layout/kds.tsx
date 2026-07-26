@@ -34,7 +34,7 @@ const updateOrderStatus = createServerFn({ method: "POST" })
     const { supabase } = context;
     const { error } = await supabase
       .from("orders")
-      .update({ status: data.status, updated_at: new Date().toISOString() })
+      .update({ status: data.status as Database["public"]["Enums"]["order_status"], updated_at: new Date().toISOString() })
       .eq("id", data.orderId);
     if (error) throw new Error("Could not update order");
     return { ok: true };

@@ -1,0 +1,26 @@
+diff --git a/src/routes/_layout/kds.tsx b/src/routes/_layout/kds.tsx
+index 80c4230..331316f 100644
+--- a/src/routes/_layout/kds.tsx
++++ b/src/routes/_layout/kds.tsx
+@@ -15,7 +15,7 @@ const getPendingOrders = createServerFn({ method: "GET" })
+       .from("user_roles")
+       .select("role")
+       .eq("user_id", userId);
+-    const isStaff = (roles ?? []).some((r) => ["admin", "owner", "staff"].includes(r.role));
++    const isStaff = (roles ?? []).some((r) => ["admin", "owner", "kds"].includes(r.role));
+     if (!isStaff) {
+       throw new Error("Unauthorized");
+     }
+diff --git a/src/routes/_layout/waiter.tsx b/src/routes/_layout/waiter.tsx
+index b1b64e7..d323c50 100644
+--- a/src/routes/_layout/waiter.tsx
++++ b/src/routes/_layout/waiter.tsx
+@@ -14,7 +14,7 @@ const getWaiterCalls = createServerFn({ method: "GET" })
+       .from("user_roles")
+       .select("role")
+       .eq("user_id", userId);
+-    const isStaff = (roles ?? []).some((r) => ["admin", "owner", "staff"].includes(r.role));
++    const isStaff = (roles ?? []).some((r) => ["admin", "owner", "waiter"].includes(r.role));
+     if (!isStaff) {
+       throw new Error("Unauthorized");
+     }

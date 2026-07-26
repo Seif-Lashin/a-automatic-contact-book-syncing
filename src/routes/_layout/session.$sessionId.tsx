@@ -117,7 +117,7 @@ function SessionPage() {
         <h2 className="font-semibold text-foreground">Diners at this table</h2>
         <ul className="mt-3 space-y-2">
           {session.participants.map((p) => {
-            const profile = p.profile as { display_name: string | null; avatar_url: string | null } | null;
+            const profile = p.profile as unknown as { display_name: string | null; avatar_url: string | null } | null;
             return (
               <li key={p.user_id} className="flex items-center gap-2 text-sm">
                 <div className="h-8 w-8 rounded-full bg-secondary" />

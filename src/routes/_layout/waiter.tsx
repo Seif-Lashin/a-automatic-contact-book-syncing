@@ -14,7 +14,7 @@ const getWaiterCalls = createServerFn({ method: "GET" })
       .from("user_roles")
       .select("role")
       .eq("user_id", userId);
-    const isStaff = (roles ?? []).some((r) => ["admin", "owner", "staff"].includes(r.role));
+    const isStaff = (roles ?? []).some((r) => ["admin", "owner", "waiter"].includes(r.role));
     if (!isStaff) {
       throw new Error("Unauthorized");
     }

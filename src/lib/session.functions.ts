@@ -140,7 +140,10 @@ export const getSessionById = createServerFn({ method: "GET" })
         ),
         orders:orders(
           *,
-          order_items(*)
+          order_items(
+            *,
+            menu_item:menu_items(name)
+          )
         )
       `,
       )

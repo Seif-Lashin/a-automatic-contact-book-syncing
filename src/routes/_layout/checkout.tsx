@@ -63,8 +63,11 @@ function CheckoutPage() {
     return <p className="text-muted-foreground">Loading checkout...</p>;
   }
 
-  const allItems = session.orders?.flatMap((o) => o.order_items) ?? [];
-  const subtotal = allItems.reduce((sum, item) => sum + item.total_price, 0);
+  const allItems: { id: string; quantity: number; total_price: number; menu_item: { name: string } | null }[] =
+    session.orders?.flatMap((o) =>
+      (o.order_items ?? []).map((item) => ({ ...item, menu_item: item.menu_item as { name: string } | null })),
+    ) ?? [];
+  const subtotal = allItems.reduce((sum: number, item) => sum + item.total_price, 0);
   const tax = Math.round(subtotal * session.tax_rate);
   const serviceCharge = Math.round(subtotal * session.service_charge_rate);
   const tip = Math.round(subtotal * (tipPercent / 100));
@@ -75,7 +78,7 @@ function CheckoutPage() {
 
   const selectedItemTotal = allItems
     .filter((item) => selectedItems.has(item.id))
-    .reduce((sum, item) => sum + item.total_price, 0);
+    .reduce((sum: number, item) => sum + item.total_price, 0);
   const selectedTip = Math.round(selectedItemTotal * (tipPercent / 100));
   const selectedTax = Math.round(selectedItemTotal * session.tax_rate);
   const selectedServiceCharge = Math.round(selectedItemTotal * session.service_charge_rate);

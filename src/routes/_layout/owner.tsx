@@ -58,9 +58,7 @@ function OwnerPage() {
         <MetricCard label="Total orders" value={data?.totalOrders ?? 0} icon={TrendingUp} />
         <MetricCard
           label="Total revenue"
-          value={`$${(
-            (data?.vendors.reduce((sum: number, v) => sum + v.total_revenue, 0) ?? 0) / 100
-          ).toFixed(2)}`}
+          value={`$${((data?.totalRevenue ?? 0) / 100).toFixed(2)}`}
           icon={DollarSign}
         />
         <MetricCard label="Restaurants" value={data?.restaurants.length ?? 0} icon={Users} />

@@ -13,6 +13,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LayoutScanRouteImport } from './routes/_layout/scan'
+import { Route as LayoutSessionSessionIdRouteImport } from './routes/_layout/session.$sessionId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -33,16 +34,23 @@ const LayoutScanRoute = LayoutScanRouteImport.update({
   path: '/scan',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutSessionSessionIdRoute = LayoutSessionSessionIdRouteImport.update({
+  id: '/session/$sessionId',
+  path: '/session/$sessionId',
+  getParentRoute: () => LayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/scan': typeof LayoutScanRoute
+  '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/scan': typeof LayoutScanRoute
+  '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,13 +58,20 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/auth': typeof AuthRoute
   '/_layout/scan': typeof LayoutScanRoute
+  '/_layout/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/scan'
+  fullPaths: '/' | '/auth' | '/scan' | '/session/$sessionId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/scan'
-  id: '__root__' | '/' | '/_layout' | '/auth' | '/_layout/scan'
+  to: '/' | '/auth' | '/scan' | '/session/$sessionId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_layout'
+    | '/auth'
+    | '/_layout/scan'
+    | '/_layout/session/$sessionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -95,15 +110,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutScanRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/session/$sessionId': {
+      id: '/_layout/session/$sessionId'
+      path: '/session/$sessionId'
+      fullPath: '/session/$sessionId'
+      preLoaderRoute: typeof LayoutSessionSessionIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
   }
 }
 
 interface LayoutRouteChildren {
   LayoutScanRoute: typeof LayoutScanRoute
+  LayoutSessionSessionIdRoute: typeof LayoutSessionSessionIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutScanRoute: LayoutScanRoute,
+  LayoutSessionSessionIdRoute: LayoutSessionSessionIdRoute,
 }
 
 const LayoutRouteWithChildren =

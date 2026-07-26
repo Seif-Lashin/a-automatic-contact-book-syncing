@@ -136,7 +136,7 @@ export const getSessionById = createServerFn({ method: "GET" })
           user_id,
           is_host,
           joined_at,
-          profile:profiles(user_id, display_name, avatar_url)
+          profile:profiles!user_id(id, display_name, avatar_url)
         )
       `,
       )

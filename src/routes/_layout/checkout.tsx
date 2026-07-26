@@ -146,7 +146,7 @@ function CheckoutPage() {
                   />
                 )}
                 <span className="text-sm text-foreground">
-                  {item.quantity}× {item.name}
+                  {item.quantity}× {item.menu_item?.name ?? "Item"}
                 </span>
               </div>
               <span className="text-sm font-medium text-foreground">${(item.total_price / 100).toFixed(2)}</span>

@@ -18,15 +18,30 @@ const getOwnerDashboard = createServerFn({ method: "GET" })
     }
     const { data: restaurants } = await supabase
       .from("restaurants")
-      .select("id, name, total_orders, total_revenue, latitude, longitude");
-    const { data: vendors } = await supabase.from("vendors").select("id, name, restaurant_id, total_orders, total_revenue");
-    const { count: totalOrders } = await supabase
+      .select("id, name, latitude, longitude");
+    const { data: vendors } = await supabase
+      .from("vendors")
+      .select("id, name, restaurant_id");
+    const { data: orders } = await supabase
       .from("orders")
-      .select("*", { count: "exact", head: true });
+      .select("id, total, restaurant_id, vendor_id, status");
+
+    const totalOrders = orders?.length ?? 0;
+    const totalRevenue = orders?.reduce((sum, o) => sum + o.total, 0) ?? 0;
+    const restaurantStats = (restaurants ?? []).map((r) => {
+      const rOrders = orders?.filter((o) => o.restaurant_id === r.id) ?? [];
+      return { ...r, total_orders: rOrders.length, total_revenue: rOrders.reduce((sum, o) => sum + o.total, 0) };
+    });
+    const vendorStats = (vendors ?? []).map((v) => {
+      const vOrders = orders?.filter((o) => o.vendor_id === v.id) ?? [];
+      return { ...v, total_orders: vOrders.length, total_revenue: vOrders.reduce((sum, o) => sum + o.total, 0) };
+    });
+
     return {
-      restaurants: restaurants ?? [],
-      vendors: vendors ?? [],
-      totalOrders: totalOrders ?? 0,
+      restaurants: restaurantStats,
+      vendors: vendorStats,
+      totalOrders,
+      totalRevenue,
     };
   });
 

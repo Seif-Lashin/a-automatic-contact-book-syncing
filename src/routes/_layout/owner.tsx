@@ -24,18 +24,12 @@ const getOwnerDashboard = createServerFn({ method: "GET" })
       .select("id, name, restaurant_id");
     const { data: orders } = await supabase
       .from("orders")
-      .select("id, total, restaurant_id, vendor_id, status");
+      .select("id, total, status");
 
     const totalOrders = orders?.length ?? 0;
     const totalRevenue = orders?.reduce((sum, o) => sum + o.total, 0) ?? 0;
-    const restaurantStats = (restaurants ?? []).map((r) => {
-      const rOrders = orders?.filter((o) => o.restaurant_id === r.id) ?? [];
-      return { ...r, total_orders: rOrders.length, total_revenue: rOrders.reduce((sum, o) => sum + o.total, 0) };
-    });
-    const vendorStats = (vendors ?? []).map((v) => {
-      const vOrders = orders?.filter((o) => o.vendor_id === v.id) ?? [];
-      return { ...v, total_orders: vOrders.length, total_revenue: vOrders.reduce((sum, o) => sum + o.total, 0) };
-    });
+    const restaurantStats = (restaurants ?? []).map((r) => ({ ...r, total_orders: 0, total_revenue: 0 }));
+    const vendorStats = (vendors ?? []).map((v) => ({ ...v, total_orders: 0, total_revenue: 0 }));
 
     return {
       restaurants: restaurantStats,

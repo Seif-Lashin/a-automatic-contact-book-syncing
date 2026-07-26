@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LayoutWaiterRouteImport } from './routes/_layout/waiter'
 import { Route as LayoutScanRouteImport } from './routes/_layout/scan'
+import { Route as LayoutOwnerRouteImport } from './routes/_layout/owner'
+import { Route as LayoutOrdersRouteImport } from './routes/_layout/orders'
+import { Route as LayoutKdsRouteImport } from './routes/_layout/kds'
 import { Route as LayoutCheckoutRouteImport } from './routes/_layout/checkout'
 import { Route as LayoutSessionSessionIdRouteImport } from './routes/_layout/session.$sessionId'
 import { Route as LayoutMenuVendorIdRouteImport } from './routes/_layout/menu.$vendorId'
@@ -31,9 +35,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LayoutWaiterRoute = LayoutWaiterRouteImport.update({
+  id: '/waiter',
+  path: '/waiter',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutScanRoute = LayoutScanRouteImport.update({
   id: '/scan',
   path: '/scan',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutOwnerRoute = LayoutOwnerRouteImport.update({
+  id: '/owner',
+  path: '/owner',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutOrdersRoute = LayoutOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutKdsRoute = LayoutKdsRouteImport.update({
+  id: '/kds',
+  path: '/kds',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutCheckoutRoute = LayoutCheckoutRouteImport.update({
@@ -56,7 +80,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof LayoutCheckoutRoute
+  '/kds': typeof LayoutKdsRoute
+  '/orders': typeof LayoutOrdersRoute
+  '/owner': typeof LayoutOwnerRoute
   '/scan': typeof LayoutScanRoute
+  '/waiter': typeof LayoutWaiterRoute
   '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
   '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
@@ -64,7 +92,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof LayoutCheckoutRoute
+  '/kds': typeof LayoutKdsRoute
+  '/orders': typeof LayoutOrdersRoute
+  '/owner': typeof LayoutOwnerRoute
   '/scan': typeof LayoutScanRoute
+  '/waiter': typeof LayoutWaiterRoute
   '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
   '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
@@ -74,7 +106,11 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/auth': typeof AuthRoute
   '/_layout/checkout': typeof LayoutCheckoutRoute
+  '/_layout/kds': typeof LayoutKdsRoute
+  '/_layout/orders': typeof LayoutOrdersRoute
+  '/_layout/owner': typeof LayoutOwnerRoute
   '/_layout/scan': typeof LayoutScanRoute
+  '/_layout/waiter': typeof LayoutWaiterRoute
   '/_layout/menu/$vendorId': typeof LayoutMenuVendorIdRoute
   '/_layout/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
@@ -84,7 +120,11 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/checkout'
+    | '/kds'
+    | '/orders'
+    | '/owner'
     | '/scan'
+    | '/waiter'
     | '/menu/$vendorId'
     | '/session/$sessionId'
   fileRoutesByTo: FileRoutesByTo
@@ -92,7 +132,11 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/checkout'
+    | '/kds'
+    | '/orders'
+    | '/owner'
     | '/scan'
+    | '/waiter'
     | '/menu/$vendorId'
     | '/session/$sessionId'
   id:
@@ -101,7 +145,11 @@ export interface FileRouteTypes {
     | '/_layout'
     | '/auth'
     | '/_layout/checkout'
+    | '/_layout/kds'
+    | '/_layout/orders'
+    | '/_layout/owner'
     | '/_layout/scan'
+    | '/_layout/waiter'
     | '/_layout/menu/$vendorId'
     | '/_layout/session/$sessionId'
   fileRoutesById: FileRoutesById
@@ -135,11 +183,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/waiter': {
+      id: '/_layout/waiter'
+      path: '/waiter'
+      fullPath: '/waiter'
+      preLoaderRoute: typeof LayoutWaiterRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/scan': {
       id: '/_layout/scan'
       path: '/scan'
       fullPath: '/scan'
       preLoaderRoute: typeof LayoutScanRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/owner': {
+      id: '/_layout/owner'
+      path: '/owner'
+      fullPath: '/owner'
+      preLoaderRoute: typeof LayoutOwnerRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/orders': {
+      id: '/_layout/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof LayoutOrdersRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/kds': {
+      id: '/_layout/kds'
+      path: '/kds'
+      fullPath: '/kds'
+      preLoaderRoute: typeof LayoutKdsRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/checkout': {
@@ -168,14 +244,22 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutCheckoutRoute: typeof LayoutCheckoutRoute
+  LayoutKdsRoute: typeof LayoutKdsRoute
+  LayoutOrdersRoute: typeof LayoutOrdersRoute
+  LayoutOwnerRoute: typeof LayoutOwnerRoute
   LayoutScanRoute: typeof LayoutScanRoute
+  LayoutWaiterRoute: typeof LayoutWaiterRoute
   LayoutMenuVendorIdRoute: typeof LayoutMenuVendorIdRoute
   LayoutSessionSessionIdRoute: typeof LayoutSessionSessionIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutCheckoutRoute: LayoutCheckoutRoute,
+  LayoutKdsRoute: LayoutKdsRoute,
+  LayoutOrdersRoute: LayoutOrdersRoute,
+  LayoutOwnerRoute: LayoutOwnerRoute,
   LayoutScanRoute: LayoutScanRoute,
+  LayoutWaiterRoute: LayoutWaiterRoute,
   LayoutMenuVendorIdRoute: LayoutMenuVendorIdRoute,
   LayoutSessionSessionIdRoute: LayoutSessionSessionIdRoute,
 }

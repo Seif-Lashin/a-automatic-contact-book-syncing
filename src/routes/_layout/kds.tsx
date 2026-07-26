@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { createServerFn } from "@tanstack/react-start";
+import { createServerFn, useServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { CheckCircle, Clock } from "lucide-react";
+import type { Database } from "@/integrations/supabase/types";
 
 const getPendingOrders = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

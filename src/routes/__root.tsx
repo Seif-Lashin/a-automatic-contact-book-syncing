@@ -7,10 +7,12 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { supabase } from "@/integrations/supabase/client";
+import { Session } from "@supabase/supabase-js";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "DineSmart — QR Ordering & Bill Splitting" },
+      { name: "description", content: "Order, split, and pay at dine-in restaurants and food courts from your phone." },
+      { name: "author", content: "DineSmart" },
+      { property: "og:title", content: "DineSmart — QR Ordering & Bill Splitting" },
+      { property: "og:description", content: "Order, split, and pay at dine-in restaurants and food courts from your phone." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@dinesmart" },
     ],
     links: [
       {
@@ -116,11 +118,58 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session ?? null));
+    const { data: listener } = supabase.auth.onAuthStateChange((event, newSession) => {
+      setSession(newSession);
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
+        router.invalidate();
+      }
+    });
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur">
+          <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+            <Link to="/" className="text-lg font-bold tracking-tight text-foreground">
+              DineSmart
+            </Link>
+            <nav className="flex items-center gap-4">
+              {session ? (
+                <>
+                  <Link to="/scan" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                    Scan
+                  </Link>
+                  <Link to="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                    Orders
+                  </Link>
+                  <button
+                    onClick={() => supabase.auth.signOut()}
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                  >
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <Link to="/auth" className="text-sm font-medium text-primary hover:text-primary/90">
+                  Sign in
+                </Link>
+              )}
+            </nav>
+          </div>
+        </header>
+        <main className="mx-auto max-w-5xl px-4 py-6">
+          <Outlet />
+        </main>
+      </div>
     </QueryClientProvider>
   );
 }

@@ -9,38 +9,186 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LayoutWaiterRouteImport } from './routes/_layout/waiter'
+import { Route as LayoutScanRouteImport } from './routes/_layout/scan'
+import { Route as LayoutOwnerRouteImport } from './routes/_layout/owner'
+import { Route as LayoutOrdersRouteImport } from './routes/_layout/orders'
+import { Route as LayoutKdsRouteImport } from './routes/_layout/kds'
+import { Route as LayoutCheckoutRouteImport } from './routes/_layout/checkout'
+import { Route as LayoutSessionSessionIdRouteImport } from './routes/_layout/session.$sessionId'
+import { Route as LayoutRestaurantRestaurantIdRouteImport } from './routes/_layout/restaurant.$restaurantId'
+import { Route as LayoutMenuVendorIdRouteImport } from './routes/_layout/menu.$vendorId'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LayoutRoute = LayoutRouteImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LayoutWaiterRoute = LayoutWaiterRouteImport.update({
+  id: '/waiter',
+  path: '/waiter',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutScanRoute = LayoutScanRouteImport.update({
+  id: '/scan',
+  path: '/scan',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutOwnerRoute = LayoutOwnerRouteImport.update({
+  id: '/owner',
+  path: '/owner',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutOrdersRoute = LayoutOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutKdsRoute = LayoutKdsRouteImport.update({
+  id: '/kds',
+  path: '/kds',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutCheckoutRoute = LayoutCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutSessionSessionIdRoute = LayoutSessionSessionIdRouteImport.update({
+  id: '/session/$sessionId',
+  path: '/session/$sessionId',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutRestaurantRestaurantIdRoute =
+  LayoutRestaurantRestaurantIdRouteImport.update({
+    id: '/restaurant/$restaurantId',
+    path: '/restaurant/$restaurantId',
+    getParentRoute: () => LayoutRoute,
+  } as any)
+const LayoutMenuVendorIdRoute = LayoutMenuVendorIdRouteImport.update({
+  id: '/menu/$vendorId',
+  path: '/menu/$vendorId',
+  getParentRoute: () => LayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/checkout': typeof LayoutCheckoutRoute
+  '/kds': typeof LayoutKdsRoute
+  '/orders': typeof LayoutOrdersRoute
+  '/owner': typeof LayoutOwnerRoute
+  '/scan': typeof LayoutScanRoute
+  '/waiter': typeof LayoutWaiterRoute
+  '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
+  '/restaurant/$restaurantId': typeof LayoutRestaurantRestaurantIdRoute
+  '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/checkout': typeof LayoutCheckoutRoute
+  '/kds': typeof LayoutKdsRoute
+  '/orders': typeof LayoutOrdersRoute
+  '/owner': typeof LayoutOwnerRoute
+  '/scan': typeof LayoutScanRoute
+  '/waiter': typeof LayoutWaiterRoute
+  '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
+  '/restaurant/$restaurantId': typeof LayoutRestaurantRestaurantIdRoute
+  '/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_layout': typeof LayoutRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_layout/checkout': typeof LayoutCheckoutRoute
+  '/_layout/kds': typeof LayoutKdsRoute
+  '/_layout/orders': typeof LayoutOrdersRoute
+  '/_layout/owner': typeof LayoutOwnerRoute
+  '/_layout/scan': typeof LayoutScanRoute
+  '/_layout/waiter': typeof LayoutWaiterRoute
+  '/_layout/menu/$vendorId': typeof LayoutMenuVendorIdRoute
+  '/_layout/restaurant/$restaurantId': typeof LayoutRestaurantRestaurantIdRoute
+  '/_layout/session/$sessionId': typeof LayoutSessionSessionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/checkout'
+    | '/kds'
+    | '/orders'
+    | '/owner'
+    | '/scan'
+    | '/waiter'
+    | '/menu/$vendorId'
+    | '/restaurant/$restaurantId'
+    | '/session/$sessionId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/checkout'
+    | '/kds'
+    | '/orders'
+    | '/owner'
+    | '/scan'
+    | '/waiter'
+    | '/menu/$vendorId'
+    | '/restaurant/$restaurantId'
+    | '/session/$sessionId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_layout'
+    | '/auth'
+    | '/_layout/checkout'
+    | '/_layout/kds'
+    | '/_layout/orders'
+    | '/_layout/owner'
+    | '/_layout/scan'
+    | '/_layout/waiter'
+    | '/_layout/menu/$vendorId'
+    | '/_layout/restaurant/$restaurantId'
+    | '/_layout/session/$sessionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LayoutRoute: typeof LayoutRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +196,104 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/waiter': {
+      id: '/_layout/waiter'
+      path: '/waiter'
+      fullPath: '/waiter'
+      preLoaderRoute: typeof LayoutWaiterRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/scan': {
+      id: '/_layout/scan'
+      path: '/scan'
+      fullPath: '/scan'
+      preLoaderRoute: typeof LayoutScanRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/owner': {
+      id: '/_layout/owner'
+      path: '/owner'
+      fullPath: '/owner'
+      preLoaderRoute: typeof LayoutOwnerRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/orders': {
+      id: '/_layout/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof LayoutOrdersRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/kds': {
+      id: '/_layout/kds'
+      path: '/kds'
+      fullPath: '/kds'
+      preLoaderRoute: typeof LayoutKdsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/checkout': {
+      id: '/_layout/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof LayoutCheckoutRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/session/$sessionId': {
+      id: '/_layout/session/$sessionId'
+      path: '/session/$sessionId'
+      fullPath: '/session/$sessionId'
+      preLoaderRoute: typeof LayoutSessionSessionIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/restaurant/$restaurantId': {
+      id: '/_layout/restaurant/$restaurantId'
+      path: '/restaurant/$restaurantId'
+      fullPath: '/restaurant/$restaurantId'
+      preLoaderRoute: typeof LayoutRestaurantRestaurantIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/menu/$vendorId': {
+      id: '/_layout/menu/$vendorId'
+      path: '/menu/$vendorId'
+      fullPath: '/menu/$vendorId'
+      preLoaderRoute: typeof LayoutMenuVendorIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
   }
 }
 
+interface LayoutRouteChildren {
+  LayoutCheckoutRoute: typeof LayoutCheckoutRoute
+  LayoutKdsRoute: typeof LayoutKdsRoute
+  LayoutOrdersRoute: typeof LayoutOrdersRoute
+  LayoutOwnerRoute: typeof LayoutOwnerRoute
+  LayoutScanRoute: typeof LayoutScanRoute
+  LayoutWaiterRoute: typeof LayoutWaiterRoute
+  LayoutMenuVendorIdRoute: typeof LayoutMenuVendorIdRoute
+  LayoutRestaurantRestaurantIdRoute: typeof LayoutRestaurantRestaurantIdRoute
+  LayoutSessionSessionIdRoute: typeof LayoutSessionSessionIdRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutCheckoutRoute: LayoutCheckoutRoute,
+  LayoutKdsRoute: LayoutKdsRoute,
+  LayoutOrdersRoute: LayoutOrdersRoute,
+  LayoutOwnerRoute: LayoutOwnerRoute,
+  LayoutScanRoute: LayoutScanRoute,
+  LayoutWaiterRoute: LayoutWaiterRoute,
+  LayoutMenuVendorIdRoute: LayoutMenuVendorIdRoute,
+  LayoutRestaurantRestaurantIdRoute: LayoutRestaurantRestaurantIdRoute,
+  LayoutSessionSessionIdRoute: LayoutSessionSessionIdRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LayoutRoute: LayoutRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -17,9 +17,8 @@ const getRestaurantVendors = createServerFn({ method: "GET" })
       .single();
     const { data: vendors } = await supabase
       .from("vendors")
-      .select("id, name, cuisine_type")
-      .eq("restaurant_id", data.restaurantId)
-      .eq("is_active", true);
+      .select("id, name")
+      .eq("restaurant_id", data.restaurantId);
     return { restaurant, vendors: vendors ?? [] };
   });
 

@@ -53,6 +53,8 @@ export const validateLocationAndJoinSession = createServerFn({ method: "POST" })
       latitude: number;
       longitude: number;
       proximity_radius_meters: number;
+      service_charge_rate: number;
+      tax_rate: number;
     };
 
     const distance = calculateDistanceMeters(

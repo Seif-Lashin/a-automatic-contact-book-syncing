@@ -137,6 +137,10 @@ export const getSessionById = createServerFn({ method: "GET" })
           is_host,
           joined_at,
           profile:profiles!user_id(id, display_name, avatar_url)
+        ),
+        orders:orders(
+          *,
+          order_items(*)
         )
       `,
       )

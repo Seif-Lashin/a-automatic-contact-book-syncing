@@ -151,6 +151,15 @@ function RootComponent() {
                   <Link to="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground">
                     Orders
                   </Link>
+                  <Link to="/reviews" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                    Reviews
+                  </Link>
+                  <Link to="/loyalty" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                    Rewards
+                  </Link>
+                  <Link to="/friends" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                    Friends
+                  </Link>
                   <button
                     onClick={() => supabase.auth.signOut()}
                     className="text-sm font-medium text-muted-foreground hover:text-foreground"

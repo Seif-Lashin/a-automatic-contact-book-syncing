@@ -14,9 +14,12 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LayoutWaiterRouteImport } from './routes/_layout/waiter'
 import { Route as LayoutScanRouteImport } from './routes/_layout/scan'
+import { Route as LayoutReviewsRouteImport } from './routes/_layout/reviews'
 import { Route as LayoutOwnerRouteImport } from './routes/_layout/owner'
 import { Route as LayoutOrdersRouteImport } from './routes/_layout/orders'
+import { Route as LayoutLoyaltyRouteImport } from './routes/_layout/loyalty'
 import { Route as LayoutKdsRouteImport } from './routes/_layout/kds'
+import { Route as LayoutFriendsRouteImport } from './routes/_layout/friends'
 import { Route as LayoutCheckoutRouteImport } from './routes/_layout/checkout'
 import { Route as LayoutSessionSessionIdRouteImport } from './routes/_layout/session.$sessionId'
 import { Route as LayoutRestaurantRestaurantIdRouteImport } from './routes/_layout/restaurant.$restaurantId'
@@ -46,6 +49,11 @@ const LayoutScanRoute = LayoutScanRouteImport.update({
   path: '/scan',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutReviewsRoute = LayoutReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutOwnerRoute = LayoutOwnerRouteImport.update({
   id: '/owner',
   path: '/owner',
@@ -56,9 +64,19 @@ const LayoutOrdersRoute = LayoutOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutLoyaltyRoute = LayoutLoyaltyRouteImport.update({
+  id: '/loyalty',
+  path: '/loyalty',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutKdsRoute = LayoutKdsRouteImport.update({
   id: '/kds',
   path: '/kds',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutFriendsRoute = LayoutFriendsRouteImport.update({
+  id: '/friends',
+  path: '/friends',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutCheckoutRoute = LayoutCheckoutRouteImport.update({
@@ -87,9 +105,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof LayoutCheckoutRoute
+  '/friends': typeof LayoutFriendsRoute
   '/kds': typeof LayoutKdsRoute
+  '/loyalty': typeof LayoutLoyaltyRoute
   '/orders': typeof LayoutOrdersRoute
   '/owner': typeof LayoutOwnerRoute
+  '/reviews': typeof LayoutReviewsRoute
   '/scan': typeof LayoutScanRoute
   '/waiter': typeof LayoutWaiterRoute
   '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
@@ -100,9 +121,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof LayoutCheckoutRoute
+  '/friends': typeof LayoutFriendsRoute
   '/kds': typeof LayoutKdsRoute
+  '/loyalty': typeof LayoutLoyaltyRoute
   '/orders': typeof LayoutOrdersRoute
   '/owner': typeof LayoutOwnerRoute
+  '/reviews': typeof LayoutReviewsRoute
   '/scan': typeof LayoutScanRoute
   '/waiter': typeof LayoutWaiterRoute
   '/menu/$vendorId': typeof LayoutMenuVendorIdRoute
@@ -115,9 +139,12 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/auth': typeof AuthRoute
   '/_layout/checkout': typeof LayoutCheckoutRoute
+  '/_layout/friends': typeof LayoutFriendsRoute
   '/_layout/kds': typeof LayoutKdsRoute
+  '/_layout/loyalty': typeof LayoutLoyaltyRoute
   '/_layout/orders': typeof LayoutOrdersRoute
   '/_layout/owner': typeof LayoutOwnerRoute
+  '/_layout/reviews': typeof LayoutReviewsRoute
   '/_layout/scan': typeof LayoutScanRoute
   '/_layout/waiter': typeof LayoutWaiterRoute
   '/_layout/menu/$vendorId': typeof LayoutMenuVendorIdRoute
@@ -130,9 +157,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/checkout'
+    | '/friends'
     | '/kds'
+    | '/loyalty'
     | '/orders'
     | '/owner'
+    | '/reviews'
     | '/scan'
     | '/waiter'
     | '/menu/$vendorId'
@@ -143,9 +173,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/checkout'
+    | '/friends'
     | '/kds'
+    | '/loyalty'
     | '/orders'
     | '/owner'
+    | '/reviews'
     | '/scan'
     | '/waiter'
     | '/menu/$vendorId'
@@ -157,9 +190,12 @@ export interface FileRouteTypes {
     | '/_layout'
     | '/auth'
     | '/_layout/checkout'
+    | '/_layout/friends'
     | '/_layout/kds'
+    | '/_layout/loyalty'
     | '/_layout/orders'
     | '/_layout/owner'
+    | '/_layout/reviews'
     | '/_layout/scan'
     | '/_layout/waiter'
     | '/_layout/menu/$vendorId'
@@ -210,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutScanRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/reviews': {
+      id: '/_layout/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof LayoutReviewsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/owner': {
       id: '/_layout/owner'
       path: '/owner'
@@ -224,11 +267,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutOrdersRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/loyalty': {
+      id: '/_layout/loyalty'
+      path: '/loyalty'
+      fullPath: '/loyalty'
+      preLoaderRoute: typeof LayoutLoyaltyRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/kds': {
       id: '/_layout/kds'
       path: '/kds'
       fullPath: '/kds'
       preLoaderRoute: typeof LayoutKdsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/friends': {
+      id: '/_layout/friends'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof LayoutFriendsRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/checkout': {
@@ -264,9 +321,12 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutCheckoutRoute: typeof LayoutCheckoutRoute
+  LayoutFriendsRoute: typeof LayoutFriendsRoute
   LayoutKdsRoute: typeof LayoutKdsRoute
+  LayoutLoyaltyRoute: typeof LayoutLoyaltyRoute
   LayoutOrdersRoute: typeof LayoutOrdersRoute
   LayoutOwnerRoute: typeof LayoutOwnerRoute
+  LayoutReviewsRoute: typeof LayoutReviewsRoute
   LayoutScanRoute: typeof LayoutScanRoute
   LayoutWaiterRoute: typeof LayoutWaiterRoute
   LayoutMenuVendorIdRoute: typeof LayoutMenuVendorIdRoute
@@ -276,9 +336,12 @@ interface LayoutRouteChildren {
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutCheckoutRoute: LayoutCheckoutRoute,
+  LayoutFriendsRoute: LayoutFriendsRoute,
   LayoutKdsRoute: LayoutKdsRoute,
+  LayoutLoyaltyRoute: LayoutLoyaltyRoute,
   LayoutOrdersRoute: LayoutOrdersRoute,
   LayoutOwnerRoute: LayoutOwnerRoute,
+  LayoutReviewsRoute: LayoutReviewsRoute,
   LayoutScanRoute: LayoutScanRoute,
   LayoutWaiterRoute: LayoutWaiterRoute,
   LayoutMenuVendorIdRoute: LayoutMenuVendorIdRoute,

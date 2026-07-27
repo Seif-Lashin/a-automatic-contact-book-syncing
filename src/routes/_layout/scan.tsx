@@ -52,10 +52,13 @@ function ScanPage() {
       .catch((err) => setError(err?.message || "Could not start camera"));
 
     return () => {
-      if (scannerRef.current && scanning) {
-        scannerRef.current.stop().catch(() => {});
-      }
-      scannerRef.current?.clear();
+      const s = scannerRef.current;
+      scannerRef.current = null;
+      if (!s) return;
+      const isScanning = s.getState?.() === 2; // 2 = SCANNING
+      Promise.resolve(isScanning ? s.stop() : undefined)
+        .then(() => s.clear())
+        .catch(() => {});
     };
   }, [joinSession, navigate]);
 
